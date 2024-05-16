@@ -22,20 +22,35 @@ async function cadastroUsuario(){
 
 
     // essa verificação foi colocada aqui devido ser necessario executa-la antes do fetch(função que chama a API)
-    if(name.value==''){
+    if(name.value ==''){
         alert("preencha o seu nome")
         return
         }
     
-        if(email.value==''){
+        if(email.value ==''){
         alert("preencha o seu Email")
         return
         }
 
-        if(cpf_cnpj.value==''){
+        if(cpf_cnpj.value ==''){
             alert("Informe seu CPF ou CNPJ")
+        return
+        }
+
+        if(birthday.value ==''){
+            alert("Preencha o seu Aniversário")
             return
-            }
+        }
+        
+        if(password.value =='' ){
+            alert("Preencha a sua Senha")
+            return
+        }
+        
+        if(password.value.length < 6){
+            alert("Sua senha deve ter pelo menos 6 caracteres")
+            return
+        }   
 
     
 
@@ -61,10 +76,16 @@ async function cadastroUsuario(){
 
     //if (cpf_cnpj.value !=)
 
-    if(data.data?.statusCode && data.data.statusCode != 200){
-        alert(data.data.errors);
+    if(data.data?.statusCode && data.data.statusCode == 422){
+        if(data.data.errors.cpf_cnpj){
+            alert('Erro: CPF inválido ou CPF já cadastrado! '+data.data.errors.cpf_cnpj[0]);
+        }
+        if(data.data.errors.email){
+            alert('Erro: Email já cadastrado! '+data.data.errors.email[0])
+        }
         return;
     }
+
     alert("Cadastro feito com sucesso");
     window.location.href = "login.html";
 
